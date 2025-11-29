@@ -9,7 +9,7 @@ export FRONTEND_DIR="$REPO_ROOT/web-app"
 export BACKEND_DIR="$REPO_ROOT/backend"
 
 # Docker Compose command
-export DC="docker-compose -f $INFRA_DIR/docker-compose.yml"
+export DC="docker compose -f $INFRA_DIR/docker-compose.yml"
 
 echo "Environment initialized:"
 echo "  REPO_ROOT=$REPO_ROOT"
