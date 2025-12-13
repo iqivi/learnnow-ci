@@ -4,10 +4,9 @@
 source "$(dirname "$0")/envsetup.sh"
 
 echo "Updating web-app..."
-cd $FRONTEND_DIR || exit 1
 
 # Pobierz najnowszy kod
-cd $REPO_ROOT && repo sync learnnow-webapp
+cd $REPO_ROOT && $REPO sync learnnow-webapp
 
 # Buduj i startuj kontener frontend
 $DC down frontend

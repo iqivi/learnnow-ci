@@ -6,7 +6,8 @@ source "$(dirname "$0")/envsetup.sh"
 echo "Updating all services..."
 
 # Pull repos
-cd $REPO_ROOT && repo sync
+cd $REPO_ROOT
+$REPO sync
 
 
 # Rebuild & start containers
