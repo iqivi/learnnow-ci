@@ -1,22 +1,21 @@
 #!/bin/bash
-# Skrypt do uruchamiania testów jednostkowych backendu
+# Skrypt do uruchamiania testów jednostkowych backendu z wymuszeniem przebudowy
 
-# Załadowanie środowiska i zmiennych (REPO_ROOT, DC, REPO)
+# Załadowanie środowiska i zmiennych
 source "$(dirname "$0")/envsetup.sh"
 
 echo "-------------------------------------------------------"
 echo "STARTING BACKEND UNIT TESTS"
 echo "-------------------------------------------------------"
 
-# 1. Pobierz najnowszy kod backendu
+# 1. Synchronizacja kodu
+# UWAGA: Jeśli poprawiłeś testy lokalnie na serwerze, upewnij się, że 
+# zrobiłeś commit/push, inaczej 'repo sync' może nadpisać Twoje poprawki!
 echo "Syncing backend code..."
 cd $REPO_ROOT && $REPO sync learnnow-backend
 
-# 2. Uruchom kontener testowy
-# --profile test: aktywuje profil z docker-compose.yml
-# run --rm: uruchamia testy i usuwa kontener natychmiast po zakończeniu
-echo "Executing: $DC --profile test run --rm backend-test"
-$DC --profile test run --rm backend-test
-
-# Skrypt automatycznie zwróci kod wyjścia (exit code) z mvn test.
-# Jeśli testy padną, Jenkins oznaczy build jako FAILED.
+# 2. Uruchomienie testów z flagą --build
+# --build: gwarantuje, że Docker skopiuje najnowsze zmiany w kodzie do obrazu
+# --rm: usuwa kontener po zakończeniu
+echo "Executing: $DC --profile test run --build --rm backend-test mvn clean test"
+$DC --profile test run --build --rm backend-test mvn clean test
